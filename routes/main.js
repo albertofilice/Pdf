@@ -1,6 +1,7 @@
 var
 express        = require('express'),
 mysql = require('mysql');
+db = require('../db');
 router         = express.Router(),
 path           = require('path'),
 multer         = require('multer'),
@@ -90,14 +91,24 @@ router.get('/split', function (req, res) {
    var now = date.create();
 
    global.formatted = now.format('d-m-Y_H:M:S');
+   
+   //Path Splitted
 
    new_dir = path.join('./public/splitted', formatted);
    
+   //Path Splitted DB
+   
    url = path.join('./splitted', formatted);
+   
+   //Path Encrypted
    
    encrypted_dir = path.join('./public/encrypted', formatted);
    
+   //Path Encrypted DB
+   
    url_encrypted = path.join('./encrypted', formatted);
+   
+   //Creazione Directory
    
    encrypted_dir = encrypted_dir + '/';
 
@@ -122,59 +133,49 @@ router.get('/split', function (req, res) {
 
      console.log(global.cf_list);
      
-     
+  // Inserimento dei valori nel DB e creazione Del Report      
+      
+    console.log('prima: ' + arr + url);
 
-var connection = mysql.createConnection(
-                {
-      host     : 'http://filice.synology.me',
-      user     : 'root',
-      password : 'Fg021080',
-      database : 'studio',
-                }
-              );
-    
-            connection.connect();
-      
-      
-            console.log('prima: ' + arr + url);
-      for(var i=0;i<arr.length;i++) {
-         
-            console.log('dopo: '+ arr[i]);
-      
-       var values = [ [ [ arr[i]],[url_encrypted + arr[i] + '.pdf'] ]  ];
-       var sql = "INSERT INTO cedolini (codicefiscale,url) VALUES ?";
-        
-            console.log('Ho inserito nel DB in seguenti Valori: ' + '  ' + arr[i] + '  ' + [url_encrypted + arr[i] + '.pdf']);         
-
-                  connection.query(sql, [values], function(err, rows, fields) {
+                  for(var i=0;i<arr.length;i++) {
+                     
+                        console.log('dopo: '+ arr[i]);
+                  
+                   var values = [ [ [ arr[i]],[url + arr[i] + '.pdf'] ]  ];
+                   var sql = "INSERT INTO cedolini (codicefiscale,url) VALUES ?";
                     
-                    if (err) throw err;
+                        console.log('Ho inserito nel DB in seguenti Valori: ' + '  ' + arr[i] + '  ' + [url + arr[i] + '.pdf']);         
             
-                  });
-        }
+                              db.query(sql, [values], function(err, rows, fields) {
+                                
+                                if (err) throw err;
+                        
+                              });
+                    }
+                    
+// Criptazione del File PDF (Come Password il Codice Fiscale)                    
 
-            connection.end();
-        for(var i=0;i<arr.length;i++) {
+//        for(var i=0;i<arr.length;i++) {
      
-       sourcepath = new_dir + '/' + arr[i] + '.pdf';
+//       sourcepath = new_dir + '/' + arr[i] + '.pdf';
               
-       pdfdestinationpath = encrypted_dir + '/'  + arr[i] + '.pdf';
+//       pdfdestinationpath = encrypted_dir + '/'  + arr[i] + '.pdf';
 
        
-       var exec = require('child_process').exec,
+//       var exec = require('child_process').exec,
 
-       command = 'qpdf --encrypt ' + arr[i] + ' ' + arr[i] + ' 40 -- '+sourcepath +' '+ pdfdestinationpath;
+//       command = 'qpdf --encrypt ' + arr[i] + ' ' + arr[i] + ' 40 -- '+sourcepath +' '+ pdfdestinationpath;
        
 
        
-        exec(command, function (err){
-       if (err){
-          console.error('Error occured: ' + err);
-       }else{
-          console.log('PDF encrypted ');
-       }
- });
-}
+//        exec(command, function (err){
+//       if (err){
+//          console.error('Error occured: ' + err);
+//       }else{
+//          console.log('PDF encrypted ');
+//       }
+//  });
+//}
  
                  
        res.end('\n Set Invio Creato  con i seguenti codici fiscali: \n' + arr );
