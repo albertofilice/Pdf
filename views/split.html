@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
+<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+
+<!-- Bootstrap Date-Picker Plugin -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+</head>
+
+<body>
+
+        <div class="bootstrap-iso">
+        	 <div class="container-fluid">
+        		  <div class="row">
+        			   <div class="col-md-6 col-sm-6 col-xs-12">
+        			
+        				    <!-- Form code begins -->
+        				    <form id="splitform" action="/split" enctype="multipart/form-data" method="get">
+        				      <div class="form-group"> <!-- Submit button -->
+        				        <div class="input-group">
+        				        	<label for="submit">	
+        								    FILE CARICATO CORRETTAMENTE 
+        							</label>
+        							<button class="btn btn-primary " value="suddividi" name="submit" type="submit" style="margin-left: 2em;">Suddividi e Imposta Password</button>
+        							<br><br><p>* Verrà impostato il Codice Fiscale come password</p>	
+        						</div>		
+        				      </div>
+        				     </form>
+        				     <!-- Form code ends --> 
+        			
+        			    </div>
+        		  </div>    
+        	 </div>
+        </div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+
+	<meta charset="UTF-8">
+	<title></title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
+<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+
+<!-- Bootstrap Date-Picker Plugin -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+</head>
+
+<body>
+<div class="bootstrap-iso">
+	 <div class="container-fluid">
+		  <div class="row">
+			   <div class="col-md-6 col-sm-6 col-xs-12">
+			
+				    <!-- Form code begins -->
+				    <form id="uploadForm" action="/upload" enctype="multipart/form-data" method="post">
+				    <br><label>	
+        								    SCEGLI IL FILE CHE DEVE ESSERE DIVISO
+        			</label>
+        			<br><br>  
+				      <div class="form-group"> <!-- Submit button -->
+					      <div class="input-group">
+					        	<label class="input-group-btn">
+					        		<span class="btn btn-primary">	
+									    Cerca&hellip; <input type="file" name="userFile" style="display: none;" multiple>
+									 </span>
+								</label>	 
+									 <input type="text" class="form-control" readonly>
+							</div>		 
+							<br><br><button class="btn btn-primary " value="Upload File" name="submit" type="submit" style="">Carica</button>			
+				      </div>
+				     </form>
+				     <!-- Form code ends --> 
+			
+			    </div>
+		  </div>    
+	 </div>
+</div>
+</body>
+<!-- Script Browse Button -->
+<script>
+$(function() {
+
+  // We can attach the `fileselect` event to all file inputs on the page
+  $(document).on('change', ':file', function() {
+    var input = $(this),
+        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    input.trigger('fileselect', [numFiles, label]);
+  });
+
+  // We can watch for our custom `fileselect` event like this
+  $(document).ready( function() {
+      $(':file').on('fileselect', function(event, numFiles, label) {
+
+          var input = $(this).parents('.input-group').find(':text'),
+              log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+          if( input.length ) {
+              input.val(log);
+          } else {
+              if( log ) alert(log);
+          }
+
+      });
+  });
+  
+});
+</script>
+</html>
