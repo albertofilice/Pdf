@@ -1,6 +1,5 @@
 var
 express        = require('express'),
-mysql = require('mysql');
 db = require('../db');
 router         = express.Router(),
 path           = require('path'),
